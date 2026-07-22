@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.mpb.go.kr)",
+      "WebFetch(domain:www.busan.go.kr)",
+      "WebSearch",
+      "WebFetch(domain:www.mofe.go.kr)",
+      "mcp__848ce31b-59cc-4fad-80cc-ff050601024f__create_draft",
+      "mcp__848ce31b-59cc-4fad-80cc-ff050601024f__list_labels",
+      "mcp__848ce31b-59cc-4fad-80cc-ff050601024f__list_drafts",
+      "WebFetch(domain:localsegye.co.kr)",
+      "Bash(node gen_brief_docx.js \"C:\\\\Users\\\\jck\\\\OneDrive - 부산연구원\\\\claude_study\\\\dailybrief_plan\\\\archive\\\\2026-07-19.docx\")",
+      "Read(//c/Users/jck/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/442fabe0-3ac2-4e37-8c4d-61461c2ca8a3/d12e0217-8931-4282-9b47-ebfa9d103fb1/skills/docx/**)",
+      "Bash(npm install *)",
+      "Bash(python \"C:\\\\Users\\\\jck\\\\AppData\\\\Roaming\\\\Claude\\\\local-agent-mode-sessions\\\\skills-plugin\\\\442fabe0-3ac2-4e37-8c4d-61461c2ca8a3\\\\d12e0217-8931-4282-9b47-ebfa9d103fb1\\\\skills\\\\docx\\\\scripts\\\\office\\\\soffice.py\" --headless --convert-to pdf \"C:\\\\Users\\\\jck\\\\OneDrive - 부산연구원\\\\claude_study\\\\dailybrief_plan\\\\archive\\\\2026-07-19.docx\" --outdir .)",
+      "Bash(where soffice *)",
+      "Bash(soffice --version)",
+      "Read(//c/Program Files/LibreOffice/program/**)",
+      "Read(//c/Program Files \\\\\\(x86\\\\\\)/LibreOffice/program/**)",
+      "Bash(where pandoc *)",
+      "Bash(node -e ' *)",
+      "Bash(unzip -l \"C:\\\\Users\\\\jck\\\\OneDrive - 부산연구원\\\\claude_study\\\\dailybrief_plan\\\\archive\\\\2026-07-19.docx\")",
+      "Bash(rm -rf \"/c/Users/jck/AppData/Local/Temp/claude/docx_check\")",
+      "Bash(mkdir -p \"/c/Users/jck/AppData/Local/Temp/claude/docx_check\")",
+      "Bash(unzip -o -q \"C:\\\\Users\\\\jck\\\\OneDrive - 부산연구원\\\\claude_study\\\\dailybrief_plan\\\\archive\\\\2026-07-19.docx\" -d \"/c/Users/jck/AppData/Local/Temp/claude/docx_check\")",
+      "Read(//c/Users/jck/AppData/Local/Temp/claude/docx_check/word/_rels/**)",
+      "Bash(grep -c \"기준금리\" \"/c/Users/jck/AppData/Local/Temp/claude/docx_check/word/document.xml\")"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+name: Daily Brief Automatic Mailer
+
+on:
+  schedule:
+    # 매일 UTC 01:00 = 한국시간(KST) 매일 오전 10:00 실행
+    - cron: '0 1 * * *'
+  workflow_dispatch: # GitHub Actions 웹 화면에서 버튼 눌러 언제든 즉시 실행 테스트 가능
+
+jobs:
+  run-daily-brief:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Daily Brief & Send Mail
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python daily_brief.py
+
+      - name: Commit & Push Archive History
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add archive/*.md
+          git diff-index --quiet HEAD || git commit -m "auto: update daily brief archive [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
