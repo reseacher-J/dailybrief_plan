@@ -18,9 +18,9 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
 # 기본 설정값
-GMAIL_USER = os.getenv("GMAIL_USER", "goodman0410@gmail.com").strip()
+GMAIL_USER = os.getenv("GMAIL_USER", "").strip() or "goodman0410@gmail.com"
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "goodman0410@gmail.com").strip()
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "").strip() or GMAIL_USER
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 
 ARCHIVE_DIR = Path(__file__).parent / "archive"
