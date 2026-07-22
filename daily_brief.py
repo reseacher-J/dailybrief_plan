@@ -258,30 +258,34 @@ def convert_markdown_to_html(md_text, date_str):
 
 
 def send_gmail(subject, html_content):
-    """Gmail SMTP를 사용하여 메일을 직접 전송합니다."""
+    """Gmail SMTP를 사용하여 메일을 직접 전송합니다 (다중 수신자 지원)."""
     if not GMAIL_APP_PASSWORD:
         print("[!] GMAIL_APP_PASSWORD가 설정되지 않았거나 비어있습니다!")
         sys.exit(1)
 
     import traceback
     try:
+        # 수신자 목록 파싱 (콤마 , 로 구분된 이메일 지원)
+        raw_receivers = os.getenv("RECEIVER_EMAIL", "").strip() or GMAIL_USER
+        receivers = [addr.strip() for addr in raw_receivers.split(",") if addr.strip()]
+
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"] = GMAIL_USER
-        msg["To"] = RECEIVER_EMAIL
+        msg["To"] = ", ".join(receivers)
 
         part_html = MIMEText(html_content, "html", "utf-8")
         msg.attach(part_html)
 
-        print(f"[+] Gmail SMTP (TLS 587) 연결 시도 ({GMAIL_USER} -> {RECEIVER_EMAIL})...")
-        print(f"    - GMAIL_USER: {GMAIL_USER}")
-        print(f"    - 비밀번호 길이: {len(GMAIL_APP_PASSWORD)} 자")
+        print(f"[+] Gmail SMTP (TLS 587) 연결 시도 ({GMAIL_USER} -> {', '.join(receivers)})...")
+        print(f"    - 발송자: {GMAIL_USER}")
+        print(f"    - 수신자 ({len(receivers)}명): {', '.join(receivers)}")
 
         server = smtplib.SMTP("smtp.gmail.com", 587, timeout=30)
         server.ehlo()
         server.starttls()
         server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        server.sendmail(GMAIL_USER, RECEIVER_EMAIL, msg.as_string())
+        server.sendmail(GMAIL_USER, receivers, msg.as_string())
         server.quit()
 
         print("[+] 이메일 발송 성공!")
