@@ -20,7 +20,8 @@ if sys.platform == "win32":
 # 기본 설정값
 GMAIL_USER = os.getenv("GMAIL_USER", "").strip() or "goodman0410@gmail.com"
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "").strip() or GMAIL_USER
+DEFAULT_RECEIVER_LIST = "goodman0410@gmail.com, midas0410@naver.com, midas0410@bdi.re.kr"
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "").strip() or DEFAULT_RECEIVER_LIST
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 
 ARCHIVE_DIR = Path(__file__).parent / "archive"
@@ -266,7 +267,7 @@ def send_gmail(subject, html_content):
     import traceback
     try:
         # 수신자 목록 파싱 (콤마 , 로 구분된 이메일 지원)
-        raw_receivers = os.getenv("RECEIVER_EMAIL", "").strip() or GMAIL_USER
+        raw_receivers = RECEIVER_EMAIL
         receivers = [addr.strip() for addr in raw_receivers.split(",") if addr.strip()]
 
         msg = MIMEMultipart("alternative")

@@ -6,7 +6,7 @@
 
 | 항목 | 값 |
 |---|---|
-| 수신 주소 | goodman0410@gmail.com |
+| 수신 주소 | goodman0410@gmail.com, midas0410@naver.com, midas0410@bdi.re.kr |
 | 전달 방식 | Gmail SMTP 자동 이메일 직접 발송 (HTML 본문) |
 | 실행 주기 | 매일 오전 10시 (`0 1 * * *` UTC / `0 10 * * *` KST) |
 | 수집 기간 | 최근 24시간 (월요일은 최근 72시간) |
