@@ -6,6 +6,9 @@ on:
     - cron: '0 1 * * *'
   workflow_dispatch: # GitHub Actions 웹 화면에서 버튼 눌러 언제든 즉시 실행 테스트 가능
 
+permissions:
+  contents: write
+
 jobs:
   run-daily-brief:
     runs-on: ubuntu-latest
