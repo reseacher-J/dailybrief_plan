@@ -260,9 +260,10 @@ def convert_markdown_to_html(md_text, date_str):
 def send_gmail(subject, html_content):
     """Gmail SMTP를 사용하여 메일을 직접 전송합니다."""
     if not GMAIL_APP_PASSWORD:
-        print("[!] GMAIL_APP_PASSWORD가 설정되지 않아 메일을 전송하지 않고 건너뜁니다.")
-        return False
+        print("[!] GMAIL_APP_PASSWORD가 설정되지 않았거나 비어있습니다!")
+        sys.exit(1)
 
+    import traceback
     try:
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
@@ -272,14 +273,22 @@ def send_gmail(subject, html_content):
         part_html = MIMEText(html_content, "html", "utf-8")
         msg.attach(part_html)
 
-        print(f"[+] Gmail SMTP 연결 시도 ({GMAIL_USER} -> {RECEIVER_EMAIL})...")
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-            server.sendmail(GMAIL_USER, RECEIVER_EMAIL, msg.as_string())
-        print("[+] 이메일 발송 완료!")
+        print(f"[+] Gmail SMTP (TLS 587) 연결 시도 ({GMAIL_USER} -> {RECEIVER_EMAIL})...")
+        print(f"    - GMAIL_USER: {GMAIL_USER}")
+        print(f"    - 비밀번호 길이: {len(GMAIL_APP_PASSWORD)} 자")
+
+        server = smtplib.SMTP("smtp.gmail.com", 587, timeout=30)
+        server.ehlo()
+        server.starttls()
+        server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+        server.sendmail(GMAIL_USER, RECEIVER_EMAIL, msg.as_string())
+        server.quit()
+
+        print("[+] 이메일 발송 성공!")
         return True
     except Exception as e:
-        print(f"[-] 이메일 발송 중 오류 발생: {e}")
+        print(f"[-] 이메일 발송 중 예외 발생: {e}")
+        traceback.print_exc()
         sys.exit(1)
 
 
