@@ -18,10 +18,10 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
 # 기본 설정값
-GMAIL_USER = os.getenv("GMAIL_USER", "goodman0410@gmail.com")
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "goodman0410@gmail.com")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GMAIL_USER = os.getenv("GMAIL_USER", "goodman0410@gmail.com").strip()
+GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "goodman0410@gmail.com").strip()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 
 ARCHIVE_DIR = Path(__file__).parent / "archive"
 ARCHIVE_DIR.mkdir(exist_ok=True)
@@ -280,7 +280,7 @@ def send_gmail(subject, html_content):
         return True
     except Exception as e:
         print(f"[-] 이메일 발송 중 오류 발생: {e}")
-        return False
+        sys.exit(1)
 
 
 def main():
