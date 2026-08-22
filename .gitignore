@@ -7,3 +7,6 @@ __pycache__/
 
 # 미리보기 파일
 preview_email.html
+
+# 로컬 설정
+.claude/
